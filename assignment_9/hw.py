@@ -8,20 +8,29 @@ missing_elements([1, 2, 4, 6, 7]) -> [3, 5]
 """
 
 def missing_elements(my_list: list) -> list:
-    pass
+    missing = []
+
+    for i in range(len(my_list) - 1):
+        current = my_list[i]
+        next_val = my_list[i + 1]
+
+        for num in range(current + 1, next_val):
+            missing.append(num)
+
+    return missing
 
 """
-Exercise-2: Count occurrences
-Write a function "count_occurrences(my_list: list) -> dict" that takes a
-list of integers and returns a dictionary where keys are unique integers
-from the list and values are their counts in the list.
-
-Example:
-count_occurrences([1, 2, 3, 1, 2, 4, 5, 4]) -> {1: 2, 2: 2, 3: 1, 4: 2, 5: 1}
+Exercise-2: Count occurrences (return dict)
 """
 
 def count_occurrences(my_list: list) -> dict:
-    pass
+    d = {}
+    for i in my_list:
+        if i in d:
+            d[i] += 1
+        else:
+            d[i] = 1
+    return d
 
 
 """
@@ -34,7 +43,7 @@ common_elements([1, 2, 3, 4, 5], [3, 4, 5, 6, 7]) -> [3, 4, 5]
 """
 
 def common_elements(list1: list, list2: list) -> list:
-    pass
+    return list(set(list1) & set(list2))
 
 """
 Exercise-5: Character frequency
@@ -46,7 +55,13 @@ char_frequency('hello world') -> {'h': 1, 'e': 1, 'l': 3, 'o': 2, ' ': 1, 'w': 1
 """
 
 def char_frequency(my_string: str) -> dict:
-    pass
+    d = {}
+    for c in my_string:
+        if c in d:
+            d[c] += 1
+        else:
+            d[c] = 1
+    return d
 
 """
 Exercise-6: Unique words
@@ -58,8 +73,7 @@ unique_words('hello world hello') -> 2
 """
 
 def unique_words(my_string: str) -> int:
-    pass
-
+    return len(set(my_string.split()))
 """
 Exercise-7: Word frequency
 Write a function "word_frequency(my_string: str) -> dict" that takes a
@@ -70,7 +84,14 @@ word_frequency('hello world hello') -> {'hello': 2, 'world': 1}
 """
 
 def word_frequency(my_string: str) -> dict:
-    pass
+    word_list = my_string.split()
+    d = {}
+    for word in word_list:
+        if word in d:
+            d[word] += 1
+        else:
+            d[word] = 1
+    return d
 
 """
 Exercise-8: Count elements in range
@@ -83,8 +104,13 @@ count_in_range([1, 2, 3, 4, 5, 4, 3, 2, 1], 2, 4) -> 3
 """
 
 def count_in_range(my_list: list, start: int, end: int) -> int:
-    pass
+    unique = set()
 
+    for num in my_list:
+        if start <= num <= end:
+            unique.add(num)
+
+    return len(unique)
 """
 Exercise-9: Swap dictionary keys and values
 Write a function "swap_dict(d: dict) -> dict" that takes a dictionary
@@ -96,7 +122,12 @@ swap_dict({1: 'a', 2: 'b', 3: 'c'}) -> {'a': 1, 'b': 2, 'c': 3}
 """
 
 def swap_dict(d: dict) -> dict:
-    pass
+    d_new = {}
+    for key, value in d.items():
+        if value not in d_new:
+            d_new[value] = key
+    return d_new
+
 
 """
 Exercise-10: Subset check
@@ -108,7 +139,7 @@ is_subset({1, 2, 3, 4, 5}, {3, 4, 5}) -> True
 """
 
 def is_subset(set1: set, set2: set) -> bool:
-    pass
+    return set2.issubset(set1)
 
 """
 Exercise-11: Intersection of lists
@@ -120,7 +151,7 @@ list_intersection([1, 2, 3, 4, 5], [3, 4, 5, 6, 7]) -> [3, 4, 5]
 """
 
 def list_intersection(list1: list, list2: list) -> list:
-    pass
+    return list(set(list1).intersection(set(list2)))
 
 """
 Exercise-12: Union of lists
@@ -132,7 +163,7 @@ list_union([1, 2, 3, 4, 5], [3, 4, 5, 6, 7]) -> [1, 2, 3, 4, 5, 6, 7]
 """
 
 def list_union(list1: list, list2: list) -> list:
-    pass
+    return list(set(list1).union(set(list2)))
 
 """
 Exercise-13: Most frequent element
@@ -144,7 +175,27 @@ most_frequent([1, 2, 3, 1, 2, 4, 5, 4, 1]) -> 1
 """
 
 def most_frequent(my_list: list) -> int:
-    pass
+    frequency ={}
+    max_frequency = 0
+    mode = None
+    n = len(my_list)
+
+    if n == 1:
+        return my_list[0]
+
+    for i in range(n):
+        if my_list[i] in frequency:
+            frequency[my_list[i]] += 1
+            if frequency[my_list[i]] > max_frequency:
+                max_frequency = frequency[my_list[i]]
+                mode = my_list[i]
+        else:
+            frequency[my_list[i]] = 1
+            if frequency[my_list[i]] > max_frequency:
+                max_frequency = frequency[my_list[i]]
+                mode = my_list[i]
+
+    return mode
 
 """
 Exercise-14: Least frequent element
@@ -156,5 +207,19 @@ least_frequent([1, 2, 3, 1, 2, 4, 5, 4, 1]) -> 3
 """
 
 def least_frequent(my_list: list) -> int:
-    pass
+    frequency = {}
+
+    for num in my_list: # collect data
+        frequency[num] = frequency.get(num, 0) + 1
+
+    l_frequency = float('inf')
+    l_frequent = None
+
+    for num, freq in frequency.items(): # analyze
+        if freq < l_frequency:
+            l_frequency = freq
+            l_frequent = num
+
+    return l_frequent
+
 
