@@ -16,7 +16,7 @@ with open("standard.txt") as f:
     data = f.read().split("\n")
 
 # handle \n correctly
-lines = text.split("\n")
+lines = text.split("\\n")
 
 # find ASCII-art version of each character
 for part in lines:
